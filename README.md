@@ -1,233 +1,294 @@
-# Real Estate Website Backend
+# Great Marcy Real Estate Backend
 
-## Overview
+This is the backend API for the Great Marcy Real Estate Company Website built with Node.js, Express, and MongoDB.
 
-This backend application serves as the API for the Real Estate Website, providing functionalities for user authentication, property management, service management, favorites, portfolio, and payment processing. It is built using Node.js, Express.js, and MongoDB.
+## 🚀 Live Deployment
 
-## Tech Stack
+**Production URL**: `https://great-marcy-backend.onrender.com`
 
-- **Node.js**: JavaScript runtime for building the server.
-- **Express.js**: Web framework for building the API.
-- **MongoDB**: NoSQL database for storing data.
-- **Mongoose**: ODM for MongoDB to define schemas and interact with the database.
-- **Cloudinary**: For storing and managing media files (images, videos, and documents).
-- **JWT**: For user authentication and session management.
-- **Bcrypt**: For password hashing and security.
-- **Multer**: For handling file uploads.
+- **Health Check**: [https://great-marcy-backend.onrender.com/](https://great-marcy-backend.onrender.com/)
+- **API Health**: [https://great-marcy-backend.onrender.com/health](https://great-marcy-backend.onrender.com/health)
 
-## Features
+## 🛠 Tech Stack
 
-- **User Authentication**:
+- **Node.js** - Runtime environment
+- **Express.js** - Web framework
+- **MongoDB Atlas** - Cloud database
+- **Mongoose** - ODM for MongoDB
+- **JWT** - Authentication
+- **Cloudinary** - Image storage
+- **Nodemailer** - Email service
+- **bcryptjs** - Password hashing
+- **Render** - Hosting platform
 
-  - Register new users
-  - Login existing users
-  - Password reset functionality
-  - Email verification
-  - Profile management
+## 🚀 Deployment
 
-- **User Dashboard**:
+This application is configured for easy deployment on Render. See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed deployment instructions.
 
-  - View user profile
-  - View payment plans and history
-  - Access purchased properties
-  - Manage favorites
-  - View portfolio statistics
+### Quick Deploy to Render
 
-- **Property Management**:
+1. **Fork/Clone this repository**
+2. **Push to your GitHub account**
+3. **Connect to Render**:
+   - Go to [render.com](https://render.com)
+   - Create new Web Service
+   - Connect your GitHub repository
+4. **Configure Environment Variables** (see below)
+5. **Deploy!**
 
-  - Lands, Houses, and Apartments
-  - View available properties
-  - Search and filter properties
-  - Add, edit, and delete property listings
-  - View property details including images, videos, and documents
-  - Add properties to favorites
+## 📋 Features
 
-- **Service Management**:
+- User authentication and authorization
+- Property management (lands, houses, apartments)
+- Service management
+- Payment processing
+- Admin panel
+- Portfolio management
+- Favorites system
+- Image upload with Cloudinary
+- Email notifications
+- Health check endpoints for monitoring
 
-  - Estate Management
-  - Architectural Design
-  - Property Valuation
-  - Legal Consultation
-  - Subscribe to services
+## 🔧 Local Development
 
-- **Payment Management**:
+### Prerequisites
 
-  - View payment history
-  - Process payments
-  - Support for installment plans
-  - Mark payments as completed
+- Node.js (v14 or higher)
+- MongoDB Atlas account (or local MongoDB)
+- Cloudinary account
+- Gmail account (for email service)
 
-- **Admin Dashboard**:
-  - User management
-  - Property management
-  - Service management
-  - Payment tracking
-  - Statistics and analytics
+### Installation
 
-## File Structure
+1. **Clone the repository**:
 
-```
-backend
-├── src
-│   ├── controllers          # Contains controller logic for handling requests
-│   ├── models               # Contains Mongoose models for data schemas
-│   ├── routes               # Contains route definitions for the API
-│   ├── middlewares          # Contains middleware for authentication and error handling
-│   ├── utils                # Contains utility functions (e.g., for Cloudinary)
-│   ├── app.js               # Main application setup
-│   └── server.js            # Server entry point
-├── package.json             # Project dependencies and scripts
-├── .env.example             # Example environment variables
-└── README.md                # Documentation for the backend
+```bash
+git clone <your-repository-url>
+cd great_marcy_backend
 ```
 
-## Installation
+2. **Install dependencies**:
 
-1. Clone the repository:
+```bash
+npm install
+```
 
-   ```
-   git clone <repository-url>
-   cd real-estate-website/backend
-   ```
+3. **Environment Setup**:
 
-2. Install dependencies:
+```bash
+cp .env.example .env
+# Edit .env with your actual credentials
+```
 
-   ```
-   npm install
-   ```
+4. **Start development server**:
 
-3. Set up environment variables:
+```bash
+npm run dev
+```
 
-   - Copy `.env.example` to `.env` and fill in the required values.
+The server will start on `http://localhost:5000`
 
-4. Start the server:
-   ```
-   npm start
-   ```
+## 🌍 Environment Variables
 
-## API Documentation
+### Required for Production
+
+```env
+# Server Configuration
+PORT=10000
+NODE_ENV=production
+
+# Database
+MONGODB_URI=your_mongodb_atlas_connection_string
+
+# Authentication
+JWT_SECRET=your_secure_jwt_secret
+
+# Cloudinary (Image Storage)
+CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+
+# Email Service
+EMAIL_SERVICE=gmail
+EMAIL_USER=your_email@gmail.com
+EMAIL_PASS=your_gmail_app_password
+EMAIL_FROM=your_email@gmail.com
+```
+
+### Setting Up Environment Variables
+
+1. **MongoDB Atlas**: Create cluster and get connection string
+2. **Cloudinary**: Sign up and get API credentials
+3. **Gmail**: Enable 2FA and create app password
+4. **JWT Secret**: Generate a secure random string
+
+## 📡 API Endpoints
+
+### Health & Status
+
+- `GET /` - API status and health check
+- `GET /health` - Detailed health information
 
 ### Authentication
 
 - `POST /api/auth/register` - Register a new user
 - `POST /api/auth/login` - Login user
 - `POST /api/auth/forgot-password` - Request password reset
-- `POST /api/auth/reset-password/:token` - Reset password
-- `GET /api/auth/verify-email/:token` - Verify email
-- `GET /api/auth/profile` - Get user profile
-- `PUT /api/auth/profile` - Update user profile
-- `POST /api/auth/change-password` - Change password
-- `POST /api/auth/logout` - Logout user
+- `POST /api/auth/reset-password` - Reset password
 
-### Lands
+### Properties
 
-- `GET /api/lands` - Get all available lands
-- `GET /api/lands/search` - Search lands
-- `GET /api/lands/filter` - Filter lands
-- `GET /api/lands/:id` - Get land details
-- `GET /api/lands/favorites` - Get user's favorite lands
-- `POST /api/lands/favorites/:id` - Add land to favorites
-- `DELETE /api/lands/favorites/:id` - Remove land from favorites
-- `GET /api/lands/my-lands` - Get user's purchased lands
-- `POST /api/lands` - Add new land (admin only)
-- `PUT /api/lands/:id` - Update land (admin only)
-- `DELETE /api/lands/:id` - Delete land (admin only)
-
-### Houses
-
-- `GET /api/houses` - Get all available houses
-- `GET /api/houses/search` - Search houses
-- `GET /api/houses/filter` - Filter houses
-- `GET /api/houses/:id` - Get house details
-- `GET /api/houses/favorites` - Get user's favorite houses
-- `POST /api/houses/favorites/:id` - Add house to favorites
-- `DELETE /api/houses/favorites/:id` - Remove house from favorites
-- `GET /api/houses/my-houses` - Get user's purchased houses
-- `POST /api/houses` - Add new house (admin only)
-- `PUT /api/houses/:id` - Update house (admin only)
-- `DELETE /api/houses/:id` - Delete house (admin only)
-
-### Apartments
-
-- `GET /api/apartments` - Get all available apartments
-- `GET /api/apartments/search` - Search apartments
-- `GET /api/apartments/filter` - Filter apartments
-- `GET /api/apartments/:id` - Get apartment details
-- `GET /api/apartments/favorites` - Get user's favorite apartments
-- `POST /api/apartments/favorites/:id` - Add apartment to favorites
-- `DELETE /api/apartments/favorites/:id` - Remove apartment from favorites
-- `GET /api/apartments/my-apartments` - Get user's purchased apartments
-- `POST /api/apartments` - Add new apartment (admin only)
-- `PUT /api/apartments/:id` - Update apartment (admin only)
-- `DELETE /api/apartments/:id` - Delete apartment (admin only)
+- `GET /api/lands` - Get all lands
+- `POST /api/lands` - Create new land (admin only)
+- `GET /api/houses` - Get all houses
+- `POST /api/houses` - Create new house (admin only)
+- `GET /api/apartments` - Get all apartments
+- `POST /api/apartments` - Create new apartment (admin only)
 
 ### Services
 
 - `GET /api/services` - Get all services
-- `GET /api/services/estate-management` - Get estate management services
-- `GET /api/services/architectural-design` - Get architectural design services
-- `GET /api/services/property-valuation` - Get property valuation services
-- `GET /api/services/legal-consultation` - Get legal consultation services
-- `GET /api/services/:id` - Get service details
-- `POST /api/services/subscribe/:id` - Subscribe to service
-- `DELETE /api/services/subscribe/:id` - Unsubscribe from service
-- `GET /api/services/my-services` - Get user's subscribed services
-- `POST /api/services` - Add new service (admin only)
-- `PUT /api/services/:id` - Update service (admin only)
-- `DELETE /api/services/:id` - Delete service (admin only)
+- `POST /api/services` - Create new service (admin only)
 
-### Payments
+### Admin
 
-- `GET /api/payments/history` - Get payment history
-- `GET /api/payments/:paymentId` - Get payment details
-- `GET /api/payments/plan` - Get payment plan
-- `GET /api/payments/installments/:paymentId` - Get installment details
-- `POST /api/payments/process` - Process payment
-- `GET /api/payments` - Get all payments (admin only)
-- `POST /api/payments` - Add payment (admin only)
-- `PATCH /api/payments/:paymentId/complete` - Mark payment as completed (admin only)
-- `PUT /api/payments/plan/:userId` - Update payment plan (admin only)
-
-### Portfolio
-
-- `GET /api/portfolio` - Get user portfolio
-- `GET /api/portfolio/lands` - Get portfolio lands
-- `GET /api/portfolio/houses` - Get portfolio houses
-- `GET /api/portfolio/apartments` - Get portfolio apartments
-- `GET /api/portfolio/services` - Get portfolio services
-- `GET /api/portfolio/stats` - Get portfolio statistics
+- `GET /api/admin/users` - Get all users (admin only)
+- `GET /api/admin/properties` - Get all properties (admin only)
 
 ### Favorites
 
 - `GET /api/favorites` - Get user favorites
-- `GET /api/favorites/lands` - Get favorite lands
-- `GET /api/favorites/houses` - Get favorite houses
-- `GET /api/favorites/apartments` - Get favorite apartments
 - `POST /api/favorites` - Add to favorites
-- `DELETE /api/favorites/:favoriteId` - Remove from favorites
+- `DELETE /api/favorites/:id` - Remove from favorites
 
-### Admin
+### Payments
 
-- `POST /api/admin/login` - Admin login
-- `GET /api/admin/dashboard` - Get admin dashboard data
-- `GET /api/admin/stats` - Get admin stats
-- `GET /api/admin/users` - Get all users
-- `GET /api/admin/users/:userId` - Get user details
-- `PUT /api/admin/users/:userId/role` - Update user role
-- `DELETE /api/admin/users/:userId` - Delete user
-- `GET /api/admin/announcements` - Get announcements
-- `POST /api/admin/announcements` - Add announcement
-- `PUT /api/admin/announcements/:id` - Update announcement
-- `DELETE /api/admin/announcements/:id` - Delete announcement
-- `GET /api/admin/teams` - Get teams
-- `POST /api/admin/teams` - Add team member
-- `PUT /api/admin/teams/:id` - Update team member
-- `DELETE /api/admin/teams/:id` - Delete team member
-- `GET /api/admin/inspections` - Get inspections
-- `POST /api/admin/inspections` - Add inspection
-- `PUT /api/admin/inspections/:id` - Update inspection
-- `DELETE /api/admin/inspections/:id` - Delete inspection
+- `POST /api/payments` - Process payment
+- `GET /api/payments` - Get payment history
 
-## License
+### Portfolio
 
-This project is licensed under the MIT License.
+- `GET /api/portfolio` - Get portfolio items
+- `POST /api/portfolio` - Add portfolio item (admin only)
+
+## 🗄 Database Seeding
+
+To populate the database with sample data:
+
+```bash
+npm run seed
+```
+
+## 📜 Scripts
+
+- `npm start` - Start production server
+- `npm run dev` - Start development server with nodemon
+- `npm run seed` - Seed database with sample data
+- `npm test` - Run tests
+- `npm run build` - Build command (no-op for Node.js)
+
+## 📁 Project Structure
+
+```
+src/
+├── controllers/     # Route controllers
+│   ├── authController.js
+│   ├── apartmentController.js
+│   ├── houseController.js
+│   ├── landController.js
+│   ├── serviceController.js
+│   ├── paymentController.js
+│   ├── adminController.js
+│   ├── portfolioController.js
+│   └── favoriteController.js
+├── middlewares/     # Custom middlewares
+│   ├── authMiddleware.js
+│   └── errorHandler.js
+├── models/         # Mongoose models
+│   ├── User.js
+│   ├── Apartment.js
+│   ├── House.js
+│   ├── Land.js
+│   ├── Service.js
+│   ├── Payment.js
+│   ├── Favorite.js
+│   ├── Announcement.js
+│   ├── Inspection.js
+│   └── Team.js
+├── routes/         # API routes
+│   ├── authRoutes.js
+│   ├── apartmentRoutes.js
+│   ├── houseRoutes.js
+│   ├── landRoutes.js
+│   ├── serviceRoutes.js
+│   ├── paymentRoutes.js
+│   ├── adminRoutes.js
+│   ├── portfolioRoutes.js
+│   └── favoriteRoutes.js
+├── seeds/          # Database seeders
+│   ├── index.js
+│   ├── apartmentSeeds.js
+│   ├── houseSeeds.js
+│   ├── landSeeds.js
+│   ├── serviceSeeds.js
+│   ├── announcementSeeds.js
+│   ├── inspectionSeeds.js
+│   └── teamSeeds.js
+├── utils/          # Utility functions
+│   └── cloudinary.js
+├── app.js          # Express app configuration
+└── server.js       # Server entry point
+```
+
+## 🔒 Security Features
+
+- JWT-based authentication
+- Password hashing with bcryptjs
+- CORS configuration
+- Environment variable protection
+- Input validation
+- Error handling middleware
+
+## 📊 Monitoring & Logging
+
+- Request/response logging
+- Authentication logging
+- Health check endpoints
+- Error tracking
+- Performance monitoring
+
+## 🚨 Troubleshooting
+
+### Common Issues
+
+1. **Database Connection**: Verify MongoDB Atlas connection string and network access
+2. **Environment Variables**: Ensure all required variables are set
+3. **CORS Issues**: Check frontend URL in CORS configuration
+4. **Image Upload**: Verify Cloudinary credentials
+5. **Email Service**: Check Gmail app password and 2FA settings
+
+### Support
+
+- Check [DEPLOYMENT.md](./DEPLOYMENT.md) for deployment issues
+- Review Render logs for runtime errors
+- Verify environment variables in Render dashboard
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the ISC License - see the [LICENSE](LICENSE) file for details.
+
+## 👥 Team
+
+**Great Marcy Real Estate** - Building the future of real estate technology.
+
+---
+
+**Ready to deploy?** Follow the [deployment guide](./DEPLOYMENT.md) to get your application live on Render!

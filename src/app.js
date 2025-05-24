@@ -95,6 +95,24 @@ const authLoggingMiddleware = (req, res, next) => {
 // Apply auth logging middleware
 app.use(authLoggingMiddleware);
 
+// Health check endpoint for Render
+app.get("/", (req, res) => {
+  res.status(200).json({
+    message: "Great Marcy Real Estate Backend API is running!",
+    status: "healthy",
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || "development",
+  });
+});
+
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "healthy",
+    uptime: process.uptime(),
+    timestamp: new Date().toISOString(),
+  });
+});
+
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/lands", landRoutes);
